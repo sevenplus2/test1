@@ -41,8 +41,7 @@ public class BarcodeGen2 {
 		File f = new File("/home/lappy-03/Pictures/test.png");
 		// Let the barcode image handler do the hard work
 		BarcodeImageHandler.savePNG(barcode, f);
-		/// hello
-		//Hi
+		
 	}
 
 	public static void deCode() throws IOException, NotFoundException, ChecksumException, FormatException {
