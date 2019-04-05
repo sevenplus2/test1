@@ -30,18 +30,14 @@ import net.sourceforge.barbecue.output.OutputException;
 public class BarcodeGen2 {
 	public static void main(String[] args) throws BarcodeException, IOException, OutputException, NotFoundException,
 			ChecksumException, FormatException {
-		String imagePath;
-		imagePath = "/home/lappy-03/Pictures/test.png";
+		String imagePath = "/home/lappy-03/Pictures/test.png";
 		enCode("ENCODED_STRING", imagePath);
 		deCode(imagePath);
 	}
 
 	public static void enCode(String label, String imagePath) throws BarcodeException, IOException, OutputException {
-		// get a Barcode from the BarcodeFactory
 		Barcode barcode = BarcodeFactory.createCode128A(label);
-		File f = new File(imagePath);
-		// Let the barcode image handler do the hard work
-		BarcodeImageHandler.savePNG(barcode, f);
+		BarcodeImageHandler.savePNG(barcode, new File(imagePath));
 
 	}
 
@@ -49,12 +45,10 @@ public class BarcodeGen2 {
 			throws IOException, NotFoundException, ChecksumException, FormatException {
 		InputStream barCodeInputStream = new FileInputStream(imagePath);
 		BufferedImage barCodeBufferedImage = ImageIO.read(barCodeInputStream);
-
 		LuminanceSource source = new BufferedImageLuminanceSource(barCodeBufferedImage);
 		BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
 		Reader reader = new MultiFormatReader();
 		Result result = reader.decode(bitmap);
-
 		System.out.println("Barcode text is " + result.getText());
 
 	}
