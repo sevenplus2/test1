@@ -30,22 +30,24 @@ import net.sourceforge.barbecue.output.OutputException;
 public class BarcodeGen2 {
 	public static void main(String[] args) throws BarcodeException, IOException, OutputException, NotFoundException,
 			ChecksumException, FormatException {
-		enCode("GAPX");
-		deCode();
+		String imagePath;
+		imagePath = "/home/lappy-03/Pictures/test.png";
+		enCode("ENCODED_STRING", imagePath);
+		deCode(imagePath);
 	}
 
-	public static void enCode(String label) throws BarcodeException, IOException, OutputException {
-
+	public static void enCode(String label, String imagePath) throws BarcodeException, IOException, OutputException {
 		// get a Barcode from the BarcodeFactory
 		Barcode barcode = BarcodeFactory.createCode128A(label);
-		File f = new File("/home/lappy-03/Pictures/test.png");
+		File f = new File(imagePath);
 		// Let the barcode image handler do the hard work
 		BarcodeImageHandler.savePNG(barcode, f);
-		
+
 	}
 
-	public static void deCode() throws IOException, NotFoundException, ChecksumException, FormatException {
-		InputStream barCodeInputStream = new FileInputStream("/home/lappy-03/Pictures/test.png");
+	public static void deCode(String imagePath)
+			throws IOException, NotFoundException, ChecksumException, FormatException {
+		InputStream barCodeInputStream = new FileInputStream(imagePath);
 		BufferedImage barCodeBufferedImage = ImageIO.read(barCodeInputStream);
 
 		LuminanceSource source = new BufferedImageLuminanceSource(barCodeBufferedImage);
@@ -54,9 +56,7 @@ public class BarcodeGen2 {
 		Result result = reader.decode(bitmap);
 
 		System.out.println("Barcode text is " + result.getText());
-		
-		
-		
+
 	}
 
 }
